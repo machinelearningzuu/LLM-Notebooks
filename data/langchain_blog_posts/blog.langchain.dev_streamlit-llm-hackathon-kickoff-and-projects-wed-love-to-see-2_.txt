@@ -1,0 +1,64 @@
+URL: https://blog.langchain.dev/streamlit-llm-hackathon-kickoff-and-projects-wed-love-to-see-2/
+Title: Streamlit LLM Hackathon Kickoff (and projects we’d love to see)
+
+Streamlit’s LLM Hackathon kicks off today and we’re thrilled to be partnering with them to bring it to life. We’ve been building with the Streamlit team since LangChain’s inception because it’s the easiest place to get started building LLM apps and we can’t wait to see what everyone builds this week.
+
+As you prepare to get going, we thought we’d share some resources and ideas for apps that we’d love to see (and share out with the broader community!).
+
+Getting Started with LangChain and Streamlit
+
+Here’s a repo including reference implementations of several LangChain agents as Streamlit apps including:
+
+a search enabled chatbot that remembers chat history (app here)
+
+a chat app that allows the user to add feedback on responses using Streamlit feedback and link to the traces in LangSmith (we’ve been using this one a lot lately)
+
+a chatbot capable of answering queries by referring custom documents (app here)
+
+a chatbot which can communicate with your database (app here)
+
+lots more
+
+We would LOVE to see teams contributing to this this week–PRs very welcome! 🚀
+
+Here’s a LangSmith cookbook on building a Streamlit Chat UI with LangSmith. It shows you step-by-step how to create a ChatGPT-like web app in Streamlit that supports:
+
+streaming
+
+custom instructions
+
+app feedback (including a template that lets you log simple 👍👎 scores to runs in LangSmith to make user feedback easier to incorporate.
+
+and more
+
+Here’s some LLM app inspiration from the Streamlit blog, including:
+
+Here’s our Getting Started documentation (including a scenario on how to create an agent with tools).
+
+LangChain Prompt Hub
+
+We recently launched LangChain Hub, a home for submitting, discovering, inspecting, and remixing prompts. It’s still (very) early days–we see it as not only a useful tool for helping developers build faster, but also as a way for the entire community to get collectively smarter on prompting overall.
+
+We hope you’ll contribute prompts and try each other’s out–here’s how: https://docs.smith.langchain.com/hub/quickstart
+
+We’ll be tweeting and blogging about our favorites prompts–from most useful to most creative–so make sure you share them with us and the community on Twitter!
+
+Please share feedback along the way–anything from bugs to big ideas welcome.
+
+Projects we’d love to see (and share with the LangChain community!)
+
+applications that use open source models
+
+innovative retrieval tactics
+
+most practical agents
+
+most adventurous agents
+
+apps that connect unique data source/format(s)
+
+We’ll be tweeting out our favorite projects throughout the week and collecting them for a blog post to close out the Hackathon. There may even be some (unofficial) LangChain prizes/swag for teams doing this stuff! 👀
+
+Tag us on Twitter (@langchainai), Send us a note at hello@langchain.dev, or ping us in the Steamlit Discord (I’m hwchase17).
+
+We can’t wait to see what you build!

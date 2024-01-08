@@ -1,0 +1,217 @@
+URL: https://blog.langchain.dev/exploring-genworlds/
+Title: Yeager.ai x LangChain: Exploring GenWorlds a Framework for Coordinating AI Agents
+
+Editor's Note: This is another edition of our series of guest posts highlighting the powerful applications of LangChain. We have been working with the Yeager.ai team for several months now, and they have built some really impressive applications of LangChain agents. We're excited to highlight this guest blog on their GenWorlds framework for multi-agent systems. We are especially excited to see their plan for making it seamless for the LangChain/GenWorlds community to monetize their projects.
+
+🧬🌍GenWorlds is an open-source development framework for multi-agent systems. Core to the framework are dedicated environments or "Worlds" with specialized AI Agents and shared Objects. In these Worlds, Agents use shared Objects to coordinate to execute complex tasks and achieve common goals.
+
+Our research has shown that Agents perform better with narrow focus, so Agent coordination is essential for GenAI systems to perform complex operations.
+
+Developers Can Easily Monetize
+
+Yeager.ai is building a robust ecosystem for GenAI applications. The framework is designed with composability and interoperability in mind. In addition to the framework, GenWorlds will offer a platform for hosting GenAI applications with minimal maintenance and a marketplace where developers can easily monetize their builds.
+
+
+
+The Power of Modularity
+
+Modularity is a cornerstone of the GenWorlds framework. In software engineering, breaking things down into smaller self-contained components can improve reusability and reliability of systems. The same is true for systems using LLMs - the more specific and narrow each call to the language model, the higher the reliability of the output. The GenWorlds framework applies this principle at multiple levels:
+
+Instead of a single agent trying to do everything, GenWorlds allows you to create multiple agents, each with a much narrower mission, that can work together towards a common goal Furthermore, each Agent's thought process is broken down into multiple Brains appropriate for the task at hand. Each brain needs only a fraction of the total context of the Agent and can therefore perform better Developers can configure each Brain to use advanced techniques such as 'chain-of-thought', 'self-evaluation', and 'tree-of-thought'. The framework is built with the flexibility to accommodate any new technique that comes out.
+
+The end result is focused and highly reliable Agents that fully harness the power of the underlying language models to achieve complex goals.
+
+With this context set, now let’s dive into the 🧬🌍 GenWorlds framework.
+
+
+
+World
+
+The 'Worlds' is the setting for all the action. It keeps track of all the Agents, Objects, and World properties such as Agent inventories. The World ensures every Agent is informed about the World state, entities nearby, and the events that are available to them to interact with the World.
+
+
+
+World Definition YAML
+
+For convenience, the RoundTable example (a multi-agent podcast simulation, more on this below) comes with a loader which reads a world configuration from a YAML file. This allows everyone to quickly create and modify various worlds. Here is an example:
+
+
+
+world_definition: base_args: websocket_url: ws://localhost:7456/ws world: id: world class: genworlds.worlds.world_2d.world_2d.World2D name: All-In Podcast description: The four "besties" discuss any topic you want. locations: - roundtable objects: - id: mic1 ... agents: - id: jason_calacanis ...
+
+Simulation Socket
+
+The “Simulation Socket” is a websocket server which serves as the communication backbone. It enables parallel operation of the World, Agents, and Objects, and allows them to communicate by sending events. This architecture supports connecting frontends or other services to the World, running Agents on external servers, and much more.
+
+Agents
+
+Agents in GenWorlds are autonomous entities built on top of LangChain that perceive their surroundings and make decisions to achieve specific goals as set by the user. The Agents interact with their environment by sending events through the Simulation Socket server. They dynamically learn about the World and the Objects around them, figuring out how to utilize these Objects to achieve their goals.
+
+There can be many different types of Agents, as long as each one of them understands the event protocol used to communicate with the World.
+
+The Agent’s Mental Model
+
+Agents follow a specific mental model at each step of their interaction with the World:
+
+Review World state: The Agent assesses the environment to understand the context before planning any actions. Review new events: The Agent evaluates any new occurrences in the World. These could be actions taken by other Agents or changes in the World state due to Object interactions. Remember: Using its stored memories and awareness of previous state changes, the Agent recalls past experiences and data that might affect its current decision-making process. Create a plan: The Agent creates and updates action plans based on World state changes. An Agent can execute multiple actions in one step, improving overall efficiency. Execution: Agent implements its plan, influencing the World state and potentially triggering responses from other Agents.
+
+This interactive process fosters the emergence of complex, autonomous behavior, making each Agent an active participant in the World.
+
+The Thinking Process
+
+The think() method in the code is the central function where an Agent’s thinking process is carried out. The function first acquires the initial state of the World and potential actions to be performed. It then enters a loop, where it processes events and evaluates entities in the Agent's proximity to inform its decision-making.
+
+Depending on the current state and goals of the Agent, the think() function may choose to wait, respond to user input, or interact with entities. If the Agent selects an action, it executes it and updates its memory accordingly. The think() function continually updates the Agent's state in the World and repeats the process until it decides to exit. See diagram below showing the Agent Loop in RoundTable, our podcast simulation application:
+
+Components of an Agent
+
+Brains: A Brain is a system that controls one step of an Agent's thinking process. It manages the process of thought generation, evaluation, and selection. The Brain defines the functions necessary for these processes and uses a Large Language Model to generate and evaluate thoughts. All Brains take full advantage of OpenAI Functions to allow easy specification of the desired output format.
+
+Most Agents have the following Brain types:
+
+Navigation Brain: The Navigation Brain is designed for selecting the next action of the agent which helps it achieve its goals. It generates a plan for the Agent's next steps in the World. The inputs to this class include the Agent's information (name, role, background, personality), goals, constraints, evaluation principles, and the number of thoughts to generate. It generates a set of possible plans, each consisting of an action to take, whether the action is valid, any violated constraints, and an updated plan. The NavigationBrain then evaluates these plans and selects the one that best meets the evaluation principles and constraints.
+
+Sometimes you want to constrain the sequence of actions and force the Agent to follow a certain action with another one - this can be done using the Action-Brain map.
+
+Here you can see the constructor of a NavigationBrain:
+
+NavigationBrain( openai_api_key=openai_api_key, name=name, role=role, background=background, personality=personality, topic_of_conversation=topic_of_conversation, constraints=constraints, evaluation_principles=evaluation_principles, n_of_thoughts=3, ),
+
+
+
+The n_of_thoughts=3 parameter specifies that the Brain will generate 3 possible next actions and pick the best one according to its evaluation_principles.
+
+Execution Brains: Execution Brains enable the execution of diverse tasks by Agents. These Brains accept Agent details, task attributes, constraints, and evaluation parameters. These brains can be configured to generate their output in a single call, or generate multiple potential outputs and select the best one using self-evaluation techniques.
+
+The power of Execution Brains lies in their customizability. Developers can create Brains adapted for various tasks such as participating in a podcast, writing an essay, analyzing data, or scraping social media feeds. This flexibility allows the creation of uniquely skilled Agents capable of performing a wide array of tasks in their simulated environments.
+
+The following is a constructor of an example execution brain - the PodcastBrain:
+
+PodcastBrain( openai_api_key=openai_api_key, name=name, role=role, background=background, personality=personality, communication_style=communication_style, topic_of_conversation=topic_of_conversation, constraints=constraints, evaluation_principles=evaluation_principles, n_of_thoughts=1, ),
+
+Here, the n_of_thoughts is set to 1, meaning the Podcast Brain will generate only one output message and skip the evaluation step.
+
+Event Filler Brain: The Event Filler Brain is used for generating the JSON parameters required for an action the Agent executes in a World. The inputs are similar to the Navigation Brain but also include the command the Agent has decided to execute, as well as the outputs of any previous brains in the execution flow.
+
+You can see it takes fewer parameters than the other Brains, because it doesn't need as much context to complete its task.
+
+
+
+EventFillerBrain( openai_api_key=openai_api_key, name=name, role=role, background=background, topic_of_conversation=topic_of_conversation, constraints=constraints, evaluation_principles=evaluation_principles, n_of_thoughts=1, ),
+
+Different types of Brains can be created to handle different tasks, scenarios, or problems. An Agent can have multiple Brains each focused on a specific goal with its context tailored to that goal. For instance, a podcaster Agent would have a “Content Brain” which would be its only Brain that possesses information about the Agent’s communication-style.
+
+Using multiple Brains helps narrow the Agent’s focus and thus significantly enhances the quality and reliability of an Agent's output. Additionally, each Brain can use a different LLM, which allows you to further optimize the system. For instance certain actions or decisions require more powerful LLMs (e.g. GPT-4) while other steps can be done with more simple, faster, and cheaper LLMs (e.g. GPT-3.5).
+
+Action-Brain Map: The Action-Brain Map of an Agent defines a deterministic path through the various Brains. It's the system that decides which Brain to use based on the Agent's next action. The output of each brain is passed on to the consecutive brain in the execution brain path of that action. From our Podcaster Agent example above, it will engage the Content Brain when the Agent is about to speak, and pass the output to the Event Filler Brain to generate a valid World event with the generated response.
+
+You can furthermore specify a deterministic follow-up for each action if you don't want the agent to choose freely - for example, after speaking into the microphone, the Agent must pass it to someone else. This allows you to constrain the Agent to create more predictable execution paths and increase reliability.
+
+Here's what that looks like in code:
+
+action_brain_map = { "Microphone:agent_speaks_into_microphone": {"brains":[ "podcast_brain", "event_filler_brain", ], "next_actions": ["World:agent_gives_object_to_agent_event"]}, "World:agent_gives_object_to_agent_event": {"brains":["event_filler_brain"], "next_actions": []}, "default": {"brains":["event_filler_brain"], "next_actions": []}, }
+
+Agent Inventory: The specific Objects that an Agent currently holds. This state is maintained by the world, and allows Agents to pass items such as Tokens from one to another, and keep Objects with them as they move to different locations in the World.
+
+
+
+Memories: Current and Pregenerated
+
+Agents in GenWorlds have two types of memories, current and pregenerated memories:
+
+Current Memories: Agents remember [number] of the most recent events, [number] of the most relevant events, and a running summary of the whole history. The number of recent and relevant memories is configurable by the user. Pregenerated Memories: Generated from external content (e.g. youtube videos, books, etc.) and stored in vector dbs. Pre-generated memories are injected in Agents’ prompts based on their relevance to the Agent's current goals, allowing for more focused and reliable interactions. These memories allow Agents to learn without fine-tuning the underlying model.
+
+Below is how you can easily configure custom pregenerated memories in a World definition YAML file, which are stored in a Qdrant vector database:
+
+To use the memories, you need to set the following values in the world_definition.yaml file
+
+world_definition: world: path_to_to_external_memory: ./databases/summaries_qdrant
+
+For each Agent you need to specify the collection name
+
+agents: - id: maria personality_db_collection_name: maria
+
+
+
+
+
+Objects
+
+Objects play a crucial role in facilitating interaction between Agents. Every Object defines a unique set of events, enabling Agents to accomplish specific tasks and work together in a dynamic environment. Objects can be in an Agent's vicinity or can be part of their inventory, expanding the scope of possible interactions.
+
+Agents are designed to adapt dynamically, learning about nearby Objects, understanding the event definitions, and determining the best way to interact with them to achieve their goals. Objects are the main way to give Agents new capabilities and organize them in a structure to achieve a collective broader goal.
+
+
+
+Agent Coordination
+
+Since Agents are aware of the events in the World including those of the other Agents, Agents naturally react to each other. In order to facilitate structure and organized behavior between the Agents we use shared Objects. See three examples below:
+
+“Token Bearer”: Agents use a Token in their inventory to communicate and to signal to the other Agents whose turn it is to perform an action. For example, in RoundTable (our podcast simulation app), Agents use a microphone as a token to speak to each other. Agents can only speak if they have the mic in their inventory. This ensures the Agents listen to each other and prevents them from interrupting each other, thus creating a dynamic discussion.
+
+
+
+This is how it looks in the code
+
+world_definition: world: path_to_to_external_memory: ./databases/summaries_qdrant
+
+Pipeline: Each Agent is assigned a role in the pipeline and completes their role when it’s their turn. It’s like a factory line. For example, most sales processes go something like this:
+
+Research > obtain contact info > create/send a compelling outreach message > follow up > schedule/conduct a call > review call notes > send/negotiate legal docs > follow-ups/calls > and on and on until the deal is won/lost.
+
+To facilitate this sort of an operation, you would create a set of Objects such as boxes, where each agent can put their work output, and the next Agent in the pipeline can look to see when a new item has been passed to them, pick it up, process it according to the step of the pipeline they're in, and put in in the next box.
+
+Pipeline is best for sequential tasks like in the sales example.
+
+Project Management: A project manager (human or Agent) uses a Blackboard, an Object for assigning roles to each Agent and keeping track of progress. The Project Manager and the Agents interact via the Blackboard, sharing files, updating assignments, tracking progress, etc.
+
+Tools: Agents can use Tools to execute specific functions such as calling external APIs, running complex calculations, or triggering unique events in the World.
+
+The framework provides the flexibility for anyone to create their own Objects and coordination methods.
+
+
+
+Use Case Highlight - RoundTable
+
+In order to showcase the coordination capabilities of Agents in GenWorlds, we built RoundTable, a podcast simulation. Users can summon the brightest minds for a group discussion on any topic. It's not another ChatGPT wrapper; it’s a team of AI Agents acting independently with specific personalities, memories, and expertise.
+
+RoundTable uses Objects, Agent inventories, and pre-generated memories to create dynamic discussions between Agents who sound like the people they are emulating. See a demo here:
+
+You can also try it for free on Replit
+
+Go to Replit Fork the Replit (it’s completely free) Select which use case you want to use
+
+The GenAI Ecosystem - Our Northstar
+
+We designed the GenWorlds framework with modularity, flexibility, and composability. We envision GenAI developers using this modularity to plug and play or build each element of the framework (Worlds, Agents, Objects, Memories, Brains, etc.) to create their own useful applications.
+
+We are not stopping there. We are giving our developer community a platform and the tools for easy access to monetizing their applications in a Gen-AI marketplace.
+
+
+
+
+
+Learn More About 🧬🌍GenWorlds
+
+Demo: https://youtu.be/INsNTN4S680
+
+GitHub: https://github.com/yeagerai/genworlds
+
+Docs: https://genworlds.com/docs/intro
+
+Discord: https://discord.gg/wKds24jdAX
+
+Blog: https://medium.com/yeagerai
+
+Replit: https://replit.com/@yeagerai/GenWorlds
+
+
+
+
+
+About Yeager
+
+At Yeager.ai, we are on a mission to enhance the quality of life through the power of Generative AI. Our goal is to eliminate the burdensome aspects of work by making GenAI reliable and easily accessible. By doing so, we foster a conducive environment for learning, innovation, and decision-making, propelling technological advancement.
+
+
+

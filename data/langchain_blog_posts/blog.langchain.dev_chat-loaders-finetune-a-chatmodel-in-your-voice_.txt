@@ -1,0 +1,80 @@
+URL: https://blog.langchain.dev/chat-loaders-finetune-a-chatmodel-in-your-voice/
+Title: Chat Loaders: Fine-tune a ChatModel in your Voice
+
+Summary
+
+We are adding a new integration type, ChatLoaders, to make it easier to fine-tune models on your own unique writing style. These utilities help convert data from popular messaging platforms to chat messages compatible with fine-tuning formats like that supported by OpenAI.
+
+Thank you to Greg Kamradt for Misbah Syed for their thought leadership on this.
+
+Important Links:
+
+Context
+
+On Tuesday, OpenAI announced improved fine-tuning support, extending the service to larger chat models like GPT-3.5-turbo. This enables anyone to customize these larger, more capable models for their own use cases. They also teased support for fine-tuning GPT-4 later this year.
+
+While fine-tuning is typically not advised for teaching an LLM substantially new knowledge or for factual recall; it is good for style transfer.
+
+We've had a lot of community members ask about the best ways to get ChatGPT to respond "in your own voice" - fine-tuning is an excellent way to do so!
+
+Great people on Twitter like Greg Kamdrat have also been bullish on this use case:
+
+Setting the tone/style of the output is top of the list for me
+
+
+
+Fine-tuning as a service to businesses that matches their tone
+
+
+
+Currently investigating...will report back https://t.co/235WSJzxet pic.twitter.com/KDzMrdqccv — Greg Kamradt (@GregKamradt) August 22, 2023
+
+Fine-tuning on your communications could be useful for a variety of applications, such as responding to customers in your brand's voice, generating content that is more aware of your team's unique jargon, chatting reliably in a target language, or just for fun!
+
+Why is this better than direct instructions? Style and tone can be hard to describe! Most of us don't write like ChatGPT, and it can sometimes be frustratingly difficult to get the LLM to consistently respond in a particular voice (especially over longer conversations).
+
+Why is this better than few-shot examples? It can be challenging to capture your voice in only a few concise snippets! Fine-tuning lets you provide a larger number of examples the model can learn from without having to see them every time you want to query the model.
+
+ChatLoaders
+
+At LangChain, we want to make it as easy as possible for you to take advantage of this improved fine-tuning support. To make it simple to adapt a model to your voice, we're adding a new integration type: ChatLoaders .
+
+These utilities take data exported from popular messaging platforms and convert them to LangChain message objects, which you can then easily convert platform-agnostic message formats, such as OpenAI, Llama 2, and others. This training data can be used directly for fine-tuning a model.
+
+We've added loaders for the following popular messaging platforms so far:
+
+Facebook Messenger
+
+Slack
+
+Telegram
+
+WhatsApp
+
+We have also added a recipe on how to do so for Discord and Twitter (using Apify) and plan to integrate additional chat loaders in the near future. If you have a favorite messaging platform you'd like to support, we'd love to help you land a PR!
+
+To get you started, we've added an end-to-end example notebook to the LangChain documentation showing how to fine-tune gpt-3.5-turbo (the model behind ChatGPT) on an example set of Facebook messages.
+
+❗ Please ensure all participants of your conversations support the decision to train a model on the chat data before proceeding.
+
+Once you have your fine-tuned model, you can use the model name directly in LangChain's ChatOpenAI class:
+
+from langchain.chat_models import ChatOpenAI llm = ChatOpenAI(model="ft:gpt-3.5-turbo-0613:{openaiOrg}::{modelId}") llm.predict("What classes are you taking this year?")
+
+Then you can plug this into any other LangChain component!
+
+End-to-End Example
+
+We've also created an end-to-end example of finetuning a model based on Elon Musk's tweets. This uses Apify to load data. Note that it's less than 100 examples so results may not be the most amazing they could be.
+
+We open-sourced this example at the GitHub repo here. We also hosted it on Streamlit app so you can easily play around with it here.
+
+Webinar
+
+There is a lot more to discuss on this topic. What types of messages are best for finetuning? What others sources of data exist for this? How many points do you need?
+
+We'll be discussing this and more next week in a webinar with Greg Kamradt. Come join!
+
+Conclusion
+
+We're excited to see all the creative applications fine-tuning unlocks. We have implemented a few ChatLoaders already, but we need your help to make it easier to create your own personalized model. Help us create more ChatLoaders!

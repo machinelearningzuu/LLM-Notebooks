@@ -1,0 +1,44 @@
+URL: https://blog.langchain.dev/multion-x-langchain-powering-next-gen-web-automation-navigation-with-ai/
+Title: MultiOn x LangChain: Powering Next-Gen Web Automation & Navigation with AI
+
+Editor's Note: This post was written in collaboration with MultiOn. We're really excited about the way they're using Agents to automate and streamline online interactions. They are one of the first real world, production agent applications that we know of. Their integration with LangChain as a Toolkit makes it quick and easy to personalize and automate everyday web tasks.
+
+MultiOn: Your Personal AI Agent Now on LangChain
+
+Whether it's searching for information, filling out forms, or navigating complex websites, daily web tasks can often be tedious and time-consuming. That's why we're thrilled to introduce MultiOn, a next-generation personal AI assistant designed to interact with the web, to handle these tasks on your behalf.
+
+Operating much like the sci-fi concept of JARVIS, MultiOn leverages cutting-edge AI technology to interact with your browser to perform tasks for you in real-time, from ordering you dinner, booking flights, scheduling, finding information online, to even filling out forms. And the best part? MultiOn is now integrated directly within LangChain as a Toolkit, making it even easier to automate your everyday web tasks & build custom agents and applications that can take actions on the web.
+
+Seamless Integration with LangChain
+
+With MultiOn directly integrated into LangChain, the power of Autonomous Web AI Agents is now at the fingertips of all users.
+
+The integration unlocks numerous advantages. It provides LangChain users with an AI-powered tool that can automate a variety of everyday web tasks, from information retrieval to interaction with web services on their behalf. This integration not only enhances the functionality of LangChain but also takes the Action ability of agents to the next level - to now interact with any website!
+
+Here is a glimpse of how you can use MultiOn within LangChain to interact with the website in just 3 Lines of Code 🔥:
+
+Import MultiOn as a LangChain Toolkit to add it to any custom Agent:
+
+
+
+# IMPORTS from langchain import OpenAI from langchain.agents import initialize_agent, AgentType from langchain.agents.agent_toolkits import MultionToolkit import multion multion.login() # MultiOn -> Login to the MultiOn Website # Initialize Agent agent = initialize_agent( tools=MultionToolkit().get_tools(), llm=OpenAI(temperature=0), agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION, verbose = True ) print(agent.run("Show Beautiful Pictures of New York"))
+
+Get more samples at the MultiOn API repository.
+
+
+
+LangChain Agent Demo:
+
+Other
+
+MultiOn Scheduler App: Schedule recurring tasks that run periodically, such as “wishing happy birthday to friends on fb” everyday.
+
+Group Dinner reservation Agent: Add MultiOn to a sms group chat and ask it to help book a group dinner on Opentable
+
+Join the MultiOn Community!
+
+
+
+We’re very enthusiastic about the potential for Autonomous Web AI Agents, and more broadly, exploring new ways to harness the power of AI to improve online experiences. We believe that Actions are key to building powerful AI applications, and we want to empower developers & the open source community to build AI that can interact with the Web by building on top of MultiOn. Please check our documentation, contribute to adding examples, and join our Discord to experience the future of web task automation!
+
+Stay tuned for more updates on our journey, and don't hesitate to reach us out at info@multion.ai if you have any questions or suggestions. We're always looking to hear from users and improve MultiOn to best serve your needs 🚀

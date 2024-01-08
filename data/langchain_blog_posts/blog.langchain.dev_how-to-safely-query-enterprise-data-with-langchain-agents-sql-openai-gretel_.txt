@@ -1,0 +1,100 @@
+URL: https://blog.langchain.dev/how-to-safely-query-enterprise-data-with-langchain-agents-sql-openai-gretel/
+Title: How to Safely Query Enterprise Data with LangChain Agents + SQL + OpenAI + Gretel
+
+Editor's Note: This post was written in collaboration with the Gretel team. We're really excited by their approach to combining agent-based methods, LLMs, and synthetic data to enable natural language queries for databases and data warehouses, sans SQL. The post has a really helpful walkthrough (with code!) to bring the ideas to life.
+
+Agent-based approaches coupled with large language models (LLMs) are quickly transforming how we interact with databases and data warehouses. Combined, these technologies enable natural language queries to data in your application or business, eliminating the need for SQL expertise to interact with data and even facilitating seamless queries across diverse systems.
+
+In this post, we’ll walk through an example of how LangChain, LLMs (whether open-source models like Llama-2, Falcon, or API-based models from OpenAI, Google, Anthropic), and synthetic data from Gretel combine to create a powerful, privacy-preserving solution for natural language data interaction with data in databases and warehouses. We'll introduce key concepts such as Agents, LLM Chains, and synthetic data, then delve into a practical code example to bring these ideas to life.
+
+Key technologies
+
+LLM Chains : Frameworks such as LangChain for developing applications powered by language models by chaining them together.
+
+: Frameworks such as LangChain for developing applications powered by language models by chaining them together. Agents: Agents use an LLM to decide what actions to take and the order to take them in, making future decisions by iteratively observing the outcome of prior actions.
+
+Agents use an LLM to decide what actions to take and the order to take them in, making future decisions by iteratively observing the outcome of prior actions. Function Aware LLMs: Certain newer LLMs (like OpenAI’s GPT-3.5-turbo-0613 and Google’s PaLM text-bison) have been fine-tuned to detect when a function should be called and respond with the inputs that should be passed to the function.
+
+Certain newer LLMs (like OpenAI’s GPT-3.5-turbo-0613 and Google’s PaLM text-bison) have been fine-tuned to detect when a function should be called and respond with the inputs that should be passed to the function. Synthetic data: An artificial version of the real-world created by data-aware generative models that can offer strong privacy guarantees to data. Gretel offers generative models for working with tabular data based on Transformer, GAN, and graph-based architectures.
+
+An artificial version of the real-world created by data-aware generative models that can offer strong privacy guarantees to data. Gretel offers generative models for working with tabular data based on Transformer, GAN, and graph-based architectures. SQL Databases: The backbone holding the data you'll be querying. For today, we’ll use a SQLite database.
+
+What is an Agent in LangChain?
+
+Some applications will require not just a predetermined chain of calls to LLMs/other tools, but potentially an unknown chain that depends on the user's input, too. In these types of chains, there is an “agent” that has access to a suite of tools — for example math, or the ability to query a SQL database. Depending on the user input, the agent can then decide which, if any, of these tools to call.
+
+Under the hood, the LangChain SQL Agent uses a MRKL (pronounced Miracle)-based approach, and queries the database schema and example rows and uses these to generate SQL queries, which it then executes to pull back the results you're asking for.
+
+Generating synthetic tabular data
+
+Before diving into the example, let's talk about synthetic data. With Gretel's models, you can make an artificial but statistically similar version of your sensitive data. This synthetic data is safe to use, thanks to math-backed privacy features like differential privacy. In our example, we'll use both real and synthetic data to show why this privacy is crucial when letting language models access sensitive info.
+
+To generate your own synthetic data for this example, grab the IBM HR Employee Attrition dataset (or your own) and an API key from https://console.gretel.ai. You can run Gretel's quickstart notebook or console-based workflow to create a synthetic version of the data.
+
+For this example, I used the Gretel Tabular DP model (notebook, docs) with an epsilon value of 5 for strong privacy guarantees that are great for regulated environments. For maximum accuracy while still maintaining privacy, you can also try the Gretel ACTGAN model (docs), which excels at working with highly dimensional tabular data to enable machine learning and analytics use cases.
+
+Getting started: Installation
+
+Follow along with our complete notebook in Colab or GitHub.
+
+First, install dependencies.
+
+!pip install -Uqq langchain openai gretel-client !pip install -Uqq smart_open tabulate
+
+Initializing the LangChain Agent
+
+Note: Please use your OpenAI key for this, which should be kept private.
+
+Here's the code to initialize the LangChain Agent and connect it to your SQL database.
+
+from langchain.agents import AgentExecutor, create_sql_agent from langchain.agents.agent_toolkits import SQLDatabaseToolkit from langchain.agents.agent_types import AgentType from langchain.chat_models import ChatOpenAI from langchain.llms.openai import OpenAI from langchain.sql_database import SQLDatabase def create_agent( db_uri, agent_type=AgentType.OPENAI_FUNCTIONS, verbose=VERBOSE_LANGCHAIN, temperature=0, model="gpt-3.5-turbo-0613", ): db = SQLDatabase.from_uri(db_uri) toolkit = SQLDatabaseToolkit(db=db, llm=OpenAI(temperature=temperature)) return create_sql_agent( llm=ChatOpenAI(temperature=temperature, model=model), toolkit=toolkit, verbose=verbose, agent_type=agent_type, )
+
+Here, we are also importing some sample datasets. We'll use both a real and a synthetic version of the IBM attrition HR dataset. The synthetic version is generated using Gretel's Tabular DP model with an (ε) Epsilon of 5.
+
+# Create SQLite databases from CSV datasets create_sqlite_db_from_csv( SYNTHETIC_DATA, db_name="synthetic-sqlite.db", table_name="synthetic_ibm_attrition" ) create_sqlite_db_from_csv( REAL_DATA, db_name="real-sqlite.db", table_name="real_ibm_attrition" ) # Create SQL agent to interact with synthetic IBM attrition data agent_synthetic_db = create_agent("sqlite:////content/synthetic-sqlite.db") # Create SQL agent to interact with real-world IBM attrition data agent_real_db = create_agent("sqlite:////content/real-sqlite.db")
+
+Querying the data
+
+First, we'll create a helper function to compare the outputs of real data and synthetic data.
+
+def run_and_compare_queries(synthetic, real, query: str): """Compare outputs of Langchain Agents running on real vs. synthetic data""" query_template = f"{query} Execute all necessary queries, and always return results to the query, no explanations or apologies please. Word wrap output every 50 characters." result1 = synthetic.run(query_template) result2 = real.run(query_template) print("=== Comparing Results for Query ===") print(f"Query: {query}") table_data = [ {"From Agent on Synthetic DB": result1, "From Agent on Real DB": result2} ] print(tabulate(table_data, headers="keys", tablefmt="pretty"))
+
+Sample queries
+
+Which three departments have the highest attrition rates?
+
+prompt = "Which 3 departments have the highest attrition rates? Return a list please." run_and_compare_queries(synthetic=agent_synthetic_db, real=agent_real_db, query=prompt)
+
+Figure 1. Comparing real and synthetic results for query #1.
+
+The results were quite similar between the synthetic and real datasets, giving us confidence in the synthetic data's reliability.
+
+What is the distribution of ages by 10-year increments across the entire dataset?
+
+prompt = "Show me a distribution of ages by 10 year increments. Return in list format please." run_and_compare_queries(synthetic=agent_synthetic_db, real=agent_real_db, query=prompt)
+
+Again, the distributions were notably similar between the synthetic and real data sets.
+
+Which department travels the furthest from home?
+
+prompt = "Which department travels the furthest from home?" run_and_compare_queries(synthetic=agent_synthetic_db, real=agent_real_db, query=prompt)
+
+Figure 3. Comparing real and synthetic results for query #3.
+
+In this case, we get a perfect match.
+
+Importance of privacy: Re-identification attack example
+
+Here, we illustrate a "re-identification attack" where vulnerabilities in even de-identified datasets can allow an attacker to re-identify individuals by combining known attributes. Such risks emphasize the danger of sharing data stripped of direct identifiers yet containing attributes that, when combined, can lead to identification — such as the combination of an attacker who knew someone’s age, gender, and department in the example below.
+
+Synthetic data prevents direct linking of individual information as no record in the output is based on a single user’s data, effectively thwarting re-identification attacks and upholding privacy.
+
+prompt = "Is there an employee who is Age 46, Female, and who works in Human Resources. If so, what is their monthly income, performance rating, and years since their last promotion?" run_and_compare_queries(synthetic=agent_synthetic_db, real=agent_real_db, query=prompt)
+
+Conclusion
+
+By using synthetic data, you not only protect privacy but also gain actionable insights—essential for any data-driven organization. When you blend this with agent-based approaches and large language models, you open the door for more and better stakeholder collaborations. No SQL expertise needed; simply use natural language to engage with your data across all levels of your organization.
+
+This scalable solution democratizes data access and ushers in a new era of smart, privacy-conscious data interaction. For businesses eager to maintain a competitive edge in today's data-centric world, adopting these technologies isn't just an option; it's a must.
+
+If you're ready to up your data game, sign up for Gretel today and start synthesizing.

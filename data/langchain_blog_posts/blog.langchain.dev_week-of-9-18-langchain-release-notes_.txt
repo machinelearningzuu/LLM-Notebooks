@@ -1,0 +1,72 @@
+URL: https://blog.langchain.dev/week-of-9-18-langchain-release-notes/
+Title: [Week of 9/18] LangChain Release Notes
+
+New in LangSmith
+
+Org Support in LangChain Hub: share and collaborate on prompts across your team. Easily pull in organizationally-approved prompts into your LangChain code.
+
+share and collaborate on prompts across your team. Easily pull in organizationally-approved prompts into your LangChain code. Need access to LangSmith to collaborate on prompts with your team? Fill out this form.
+
+to LangSmith to collaborate on prompts with your team? Fill out this form. Collapsable Traces: makes it way easier to navigate errors (especially for long runs).
+
+New Cookbooks:
+
+Prompt Tracking on Hub. Prototype and share LLM prompts. An example of how to use it within a RAG chain here.
+
+Prototype and share LLM prompts. An example of how to use it within a RAG chain here. Edit and commit directly from the playground. Jump between prototyping and debugging directly in the browser. Save and use within any custom chain. Example here.
+
+Jump between prototyping and debugging directly in the browser. Save and use within any custom chain. Example here. Prompt Versioning for consistent, stable deployments: Deploy and test specific prompt versions so you can be consistent in prod without slowing down your experimentation. Cookbook here.
+
+Deploy and test specific prompt versions so you can be consistent in prod without slowing down your experimentation. Cookbook here. Custom run (trace) naming. Navigate and query traces better with customized chain names. Cookbook here.
+
+
+
+New in Open Source
+
+Routing in LCEL: Allows for flexibility in choosing what to do, but keeps you in control over a finite number of potential paths. Python docs. JS docs.
+
+Allows for flexibility in choosing what to do, but keeps you in control over a finite number of potential paths. Python docs. JS docs. Stream, batch, async model calls: For all OpenAI, Anthropic, Azure OpenAI, AWS Bedrock, and Google VertexAI LLMs and chat models, we now take advantage of native support for streaming, batching and asynchronous calls wherever possible. To see the full feature list by model integration, see LLMs and Chat models.
+
+For all OpenAI, Anthropic, Azure OpenAI, AWS Bedrock, and Google VertexAI LLMs and chat models, we now take advantage of native support for streaming, batching and asynchronous calls wherever possible. To see the full feature list by model integration, see LLMs and Chat models. OpenAI InstructGPT 3.5 model: very easy to use in LangChain–just specify the new model gpt-3.5-turbo-instruct in the OpenAI class (we recommend using "old" prompts that are NOT in the ChatMessage format)
+
+very easy to use in LangChain–just specify the new model gpt-3.5-turbo-instruct in the OpenAI class (we recommend using "old" prompts that are NOT in the ChatMessage format) New summarization technique–Chain of Density–works with Anthropic, too: Produces 5 summaries iteratively, each one denser and more informative than the prior. Great overview thread by Victor Mota here. Try it out on Prompt Hub here.
+
+Produces 5 summaries iteratively, each one denser and more informative than the prior. Great overview thread by Victor Mota here. Try it out on Prompt Hub here. Customizable Agents: default agents make it easy to prototype but agents in production require more customization. So, we rewrote all 8 agent types using LangChain Expression Language and prompts from the Hub to make them more modular, understandable, and therefore more customizable. (Updated) docs here.
+
+In case you missed it
+
+Coming soon
+
+Webinars
+
+Cognitive Architectures for Language Agents Webinar [10/4] : Harrison Chase (LangChain), Charles Frye (The Full Stack, prev. Weights & Biases), Ted Sumers (Princeton), and Shunyu Yao (Princeton) will discuss the recent paper on CoALA (Cognitive Architectures for Language Agents) and the implications for building with agents
+
+Harrison Chase (LangChain), Charles Frye (The Full Stack, prev. Weights & Biases), Ted Sumers (Princeton), and Shunyu Yao (Princeton) will discuss the recent paper on CoALA (Cognitive Architectures for Language Agents) and the implications for building with agents Data Privacy for LLM Applications Webinar [10/12]: we’ll host a conversation with DeepsenseAI and Opaque about how to put your proprietary and/or sensitive data to use, without sacrificing privacy.
+
+Hackathons
+
+TED AI Hackathon Kickoff [Oct 14]: we’re offering a prize for the beset LLM app! Learn more about the Hackathon and check out project ideas/resources for getting started here.
+
+Conferences
+
+Harrison Chase, LangChain cofounder and CEO, is speaking about building context-aware reasoning applications with LangChain at:
+
+Favorite Prompts on LangChain Hub
+
+
+
+Made with LangChain
+
+langchain.com/inspiration is a new gallery of our favorite applications built with LangChain. Sampling below.
+
+Langduel is an LLM-powered dialogue between any two philosophers in history to see which convictions prevail.
+
+is an LLM-powered dialogue between any two philosophers in history to see which convictions prevail. RealChar is fully open source codebase to create, customize and talk to your AI Character/Companion. Have a natural realtime conversation with your AI companion everywhere.
+
+is fully open source codebase to create, customize and talk to your AI Character/Companion. Have a natural realtime conversation with your AI companion everywhere. Tavern is ChatGPT with hundreds of your Google Drive & Notion documents, spreadsheets, and presentations.
+
+is ChatGPT with hundreds of your Google Drive & Notion documents, spreadsheets, and presentations. PTAI generates exercises personalized to you and your requests.
+
+generates exercises personalized to you and your requests. Bloom is a LangChain-powered learning companion using metacognitive prompting to achieve increasingly personalized UX over time. It leverages emergent theory of mind abilities in LLMs to cohere to learners and meet them where they are.
+
+Building or using an application you think we should add? Email us at hello@langchain.dev.

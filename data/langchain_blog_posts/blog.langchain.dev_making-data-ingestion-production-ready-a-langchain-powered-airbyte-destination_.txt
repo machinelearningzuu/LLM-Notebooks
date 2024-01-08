@@ -1,0 +1,22 @@
+URL: https://blog.langchain.dev/making-data-ingestion-production-ready-a-langchain-powered-airbyte-destination/
+Title: Making Data Ingestion Production Ready: a LangChain-Powered Airbyte Destination
+
+A big focus of ours over the past few months has been enabling teams to go from prototype to production. To take apps they developed in an hour and get them into a place where they can actually be reliably used. Arguably the biggest category of applications LangChain helps enable is retrieval based applications (where you connect LLMs to your own data). There are a few things that are needed to take retrieval based applications from prototype to production.
+
+One component of that is everything related to the querying of the data. That’s why we launched LangSmith - to help debug and monitor how LLMs interact with the user query as well as the retrieved documents. Another huge aspect is the querying algorithms and UX around that - which is why we’re pushing on things like Conversational Retrieval Agents. (If you are interested in this part in particular, we’re doing a webinar on “Advanced Retrieval” on August 9th). A third - and arguably the most important part - is the ingestion logic itself. When taking an application into production, you want the data it’s connecting to be refreshed on some schedule in a reliable and efficient way.
+
+Our first stab at tackling this is another, deeper integration with Airbyte. The previous Airbyte integration showed how to use one of their sources as a Document Loader within LangChain. This integration goes the other direction, and adds a LangChain destination within Airbyte.
+
+To read more about this integration, you can check out Airbyte’s release blog here. We will try not to repeat too much of that blog, but rather cover why we think this is an important step.
+
+LangChain provides “sources” and “destinations” of our own - we have hundreds of document loaders and 50+ vectorstore/retriever integrations. But far from being replacements for one another, this is rather a mutually beneficial integration that provides a lot of benefits for the community.
+
+First, Airbyte provides hundreds more sources, a robust orchestration logic, as well as tooling to create more sources. Let’s focus on the orchestration logic. When you create a chatbot that has access to an index of your data, you don’t just want to index your data there once and forget about it. You want to reindex it on some schedule, so that it stays up to date. This type of data pipelines is exactly what Airbyte excels at and has been building.
+
+Second, the ingestion process isn’t only about moving data from a source to a destination. There’s also some important, non-trivial and nuanced transformations that are necessary to enable effective retrieval. Two of the most important - text splitting and embedding.
+
+Splitting text is important because you need to create chunks of data to put in the vectorstore. You want these chunks to be semantically meaningful by themselves - so that they make sense when retrieved. This is why it’s often a bit trickier than just splitting a text every 1000 characters. LangChain provides implementations of 15+ different ways to split text, powered by different algorithms and optimized for different text types (markdown vs Python code, etc). To assist in the exploration of what these different text splitters offer, we've open-source and hosted a playground for easy exploration.
+
+Embeddings are important to enable retrieval of those chunks, which is often done by comparing embeddings of a user query to embeddings of ingested documents. There are many different embedding providers and hosting platforms - and LangChain provides integrations with 50+ of them.
+
+Overall, we’re really excited about this LangChain - Airbyte integration. It provides robust orchestration and scheduling for ingestion jobs while leveraging LangChain’s transformation logic and integrations. We also think there’s more features (and integrations) to add to make data ingestion production ready - keep on the lookout for more of those over the next few weeks.

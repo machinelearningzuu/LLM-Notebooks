@@ -1,0 +1,36 @@
+URL: https://blog.langchain.dev/week-of-8-7/
+Title: [Week of 8/7] LangChain Release Notes
+
+New in LangSmith
+
+Teams: You can now collaborate in LangSmith! We’ve released support for teams of up to five people. If you need more, get in touch at support@langchain.dev
+
+You can now collaborate in LangSmith! We’ve released support for teams of up to five people. If you need more, get in touch at support@langchain.dev Cookbooks: Learn how to get more out of LangSmith's debugging, testing, and feedback functionality with these end-to-end recipes in the LangSmith Cookbook repository. Cookbooks added so far: How to use LangSmith if you’re NOT using LangChain
+
+Learn how to get more out of LangSmith's debugging, testing, and feedback functionality with these end-to-end recipes in the LangSmith Cookbook repository. Cookbooks added so far: How to use LangSmith if you’re NOT using LangChain What use-cases would you like to see? Tell us at hello@langchain.dev
+
+UI updates: resizable columns in table views and enhanced navigation
+
+resizable columns in table views and enhanced navigation Performance improvements and Bug Fixes: fixed stuttering occurring on run tree navigation
+
+New in Open Source:
+
+LangChain Expression Language: a new syntax to create chains with composition. webinar recording here. Cookbook of examples rewriting popular chains here.
+
+a new syntax to create chains with composition. webinar recording here. Cookbook of examples rewriting popular chains here. Conversational Retrieval Agents: There have been several emerging trends in LLM applications over the past few months: RAG, chat interfaces, agents. Our newest functionality - conversational retrieval agents - combines them all. blog post here.
+
+There have been several emerging trends in LLM applications over the past few months: RAG, chat interfaces, agents. Our newest functionality - conversational retrieval agents - combines them all. blog post here. Parent Document Retriever: A new retrieval algorithm that creates small chunks (to allow embeddings to have semantic meaning) and fetches the parent documents those chunks came from (to capture full context). Docs here.
+
+A new retrieval algorithm that creates small chunks (to allow embeddings to have semantic meaning) and fetches the parent documents those chunks came from (to capture full context). Docs here. Text Splitting Playground: Chunking text into appropriate splits is seemingly trivial yet very nuanced. Open sourcing a playground to help explore different text splitting strategies. GitHub here. Hosted Playground here.
+
+Chunking text into appropriate splits is seemingly trivial yet very nuanced. Open sourcing a playground to help explore different text splitting strategies. GitHub here. Hosted Playground here. Use Case Documentation: We’ve updated documentation to better highlight all the use cases of LangChain. Big shout out to community members Francisco Pingham and Manuel Soria for their help here!
+
+We’ve updated documentation to better highlight all the use cases of LangChain. Big shout out to community members Francisco Pingham and Manuel Soria for their help here! LangChain.js + Next.js starter template: more streaming and prompt customization developer experience improvements via popular use-cases you can clone, remix, and deploy on Vercel in a few clicks
+
+In case you missed it
+
+Use-cases we love
+
+Thank you’s
+
+Want this in your inbox every other week? Sign up here.

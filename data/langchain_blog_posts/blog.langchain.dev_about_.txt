@@ -1,0 +1,8 @@
+URL: https://blog.langchain.dev/about/
+Title: Write with us
+
+If you would like to publish a guest post on our blog, say hey and send a draft of your post to hello@langchain.dev.
+
+We are particularly enthusiastic about publishing: 1-technical deep-dives about building with LangChain/LangSmith 2-interesting LLM use-cases with LangChain/LangSmith under the hood!
+
+We can't wait to see what you're working on and thinking about!

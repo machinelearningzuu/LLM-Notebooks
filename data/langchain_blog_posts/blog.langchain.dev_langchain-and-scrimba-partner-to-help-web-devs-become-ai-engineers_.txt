@@ -1,0 +1,38 @@
+URL: https://blog.langchain.dev/langchain-and-scrimba-partner-to-help-web-devs-become-ai-engineers/
+Title: LangChain and Scrimba Partner to help Web Devs become AI Engineers
+
+We’re excited to announce that we are partnering with Scrimba, a code-learning platform with over a million users. Through their interactive video format known as scrims, they enable developers to grow their skills in a more fun and immersive way than regular video courses.
+
+By combing the LangChain JS library with interactive scrims, we will provide web developers with a fast-lane into the exciting world of AI engineering. The collaboration involves two parts:
+
+Creating a free LangChain JS course Improving LangChain’s documentation with scrims
+
+Let’s have a closer look at each of the initiatives.
+
+Creating a free LangChain JS course
+
+This course aims to be the most interactive LangChain learning resource to date. As a student, you’ll be constantly challenged to solve coding assignments, making sure that your build up the necessary muscle memory to become a proficient AI engineer. The course will be fully project-based, so you’ll learn the concepts while creating a real-world application.
+
+Launch is set to mid-October, but the a sneak peek of it has already been released, so be sure to check out the trailer here.
+
+Sign up for the waitlist here if you’d like to get sneak peeks as we produce the course, and exclusive early access as the launch approaches.
+
+Enriching LangChain’s docs with scrims
+
+To make it easier for developers to understand the LangChain docs, we are going to add scrims that explain the code examples in the docs in detail. This will also give developers an opportunity to get hands-on experience with LangChain from the get-go.
+
+The first scrim have already been deployed in the Expression Language Cookbook. In it, Scrimba teacher Daniel Rose explains how to compose a simple chain using the Expression Language.
+
+A scrim embedded into the Expression Language Cookbook.
+
+The docs also have a dedicated section for all the scrims that will be added. This will make it easier for you to find out if a certain topic has been explained as a scrim. We’re going to gradually deploy more scrims to the docs over the next few weeks.
+
+The creator of LangChain, Harrison Chase, explains why they wanted to partner with Scrimba:
+
+We’re excited to partner with Scrimba to help even more web developers to venture into AI Engineering. They make it really easy (and fun) to explore and improve as developers.
+
+According to Scrimba’s CEO, Per Harald Borgen, AI Engineering represents a lucrative opportunity for web developers who are looking to get ahead in their careers:
+
+“Learning to implement LLMs into products is probably the best thing a web developer can do to boost their career these days, as the industry has a huge need for competent AI engineers. And this will just continue to grow over the next few years.”
+
+Links:

@@ -1,0 +1,44 @@
+URL: https://blog.langchain.dev/week-of-8-21-langchain-release-notes/
+Title: [Week of 8/21] LangChain Release Notes
+
+New in Retrieval
+
+There was a lot happening in the retrieval space these past two weeks, so we wanted to highlight these explicitly!
+
+New in LangSmith
+
+This week, we’re focusing on cookbooks as part of our effort to help more developers build end-to-end applications.
+
+Use the run_on_dataset helper to benchmark aggregate metrics and check against a threshold
+
+to benchmark aggregate metrics and check against a threshold Write individual unit tests to make assertions on every row in a dataset
+
+to make assertions on every row in a dataset Make user scores more actionable , with optional comments and corrections
+
+, with optional comments and corrections Evaluate your apps via LLM-based preference scoring
+
+via LLM-based preference scoring Use LangSmith to test your RAG system and make prompt tweaks to improve the chain's performance to improve overall consistency of your LLM applications
+
+and make prompt tweaks to improve the chain's performance to improve overall consistency of your LLM applications if there are other recipes you’d like to see, tell us about them @hello@langchain.dev
+
+Monitoring Charts: Each project now has a monitor tab that allows you to track important metrics over time including trace count, success rate, and latency. We will be adding more metrics very soon!
+
+New in Open Source
+
+Added Fallbacks to the LangChain Expression Language (LCEL): a better way to handle LLM API failures in production-ready LLM applications
+
+a better way to handle LLM API failures in production-ready LLM applications Caching Embeddings: Embeddings can be stored or temporarily cached to avoid needing to recompute them.
+
+Embeddings can be stored or temporarily cached to avoid needing to recompute them. ChatLangChain Improvements: We're benchmarking a bunch of retrieval and agent methods for our "chat langchain" app! Interact with the new beta version here.
+
+We're benchmarking a bunch of retrieval and agent methods for our "chat langchain" app! Interact with the new beta version here. Open Source LLM guide: covers open source LLM SOTA (overview fig below) and ways to run them locally (llama.cpp, http://ollama.ai, gpt4all).
+
+covers open source LLM SOTA (overview fig below) and ways to run them locally (llama.cpp, http://ollama.ai, gpt4all). MultiVector Retriever: a new retrieval algorithm that enables multiple vector embeddings per document, that can be per-chunk, a summary, hypothetical questions, or more
+
+a new retrieval algorithm that enables multiple vector embeddings per document, that can be per-chunk, a summary, hypothetical questions, or more OpenAI Adapter: we added an easy way to switch out our OpenAI calls for the variety of other models that LangChain supports
+
+In case you missed it
+
+Use-cases we love
+
+Want this in your inbox every other week? Subscribe to the blog!

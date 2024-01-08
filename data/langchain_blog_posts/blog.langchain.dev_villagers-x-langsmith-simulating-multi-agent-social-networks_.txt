@@ -1,0 +1,27 @@
+URL: https://blog.langchain.dev/villagers-x-langsmith-simulating-multi-agent-social-networks/
+Title: Villagers x LangSmith: Simulating multi-agent social networks with LangSmith
+
+Editor's Note: This post was written in collaboration with Kevin Hu, Tae Hyoung Jo, John Kim, and Tejal Patwardhan from the Villagers team. Villagers came in second at a recent Anthropic hackathon. We really LOVED this project as it shows off complex prompt engineering with their multi-agent social network simulation that runs many agents in parallel. We were really excited to see how LangSmith could help the team automate traces, quickly iterate on prompts, and efficiently debug for this complex use-case!
+
+
+
+We are excited to write about our experience building a proof-of-concept for simulated multi-agent social networks using LangSmith. Simulating language-based human interactions on social networks has shown potential across economics, politics, sociology, business, and policy applications (e.g., [1], [2]). We use the example of a text-based online community (Twitter/X) with real user personas to demonstrate how LLMs can be used to create realistic multi-agent simulations.
+
+
+
+
+
+
+
+Building a useful simulation requires mimicking what an actual user would do, ideally based on histories of past behavior. We built agents to simulate real Twitter users interacting online based on their tweet, retweet, quote tweet, comment, and like history. Each user is an agent with their own specific prompt based on their past history. We then tested the response of the community to various ad campaigns from brands, political statements from candidates, and social commentary from comedians. This served as a proof of concept for a new simulation platform to predict engagement, responses, and behavior modification for online social networks.
+
+
+
+One of the major technical hurdles we encountered was debugging and prompt engineering given the number of agents that would be interacting at once. We were really excited by LangSmith, which allowed us to have automatic traces and to iterate effectively on prompts, helping build the foundation of the multi-agent network.
+
+With LangSmith, we were able to significantly speed up development time and feel more confident about the quality of our prompts. We found it to be the easiest-to-use LLMops tool for a product that has a high magnitude of agents running in parallel.
+
+
+
+
+

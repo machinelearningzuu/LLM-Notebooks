@@ -1,0 +1,465 @@
+URL: https://blog.langchain.dev/eden-ai-x-langchain/
+Title: Eden AI x LangChain: Harnessing LLMs, Embeddings, and AI
+
+Editor's Note: This post was written in collaboration with the Eden AI team. We're really excited about Eden's approach to simplifying AI implementation so that we can get more applications into production! It grants access to a diverse range of AI capabilities, spanning text and image generation, OCR, speech-to-text, and image analysis, all with the convenience of a single API key and minimal code. And their integration with LangChain provides effortless access to lots of LLMs and Embeddings.
+
+Introducing Eden AI: Pioneering AI Accessibility
+
+Eden AI stands as a new revolutionary platform meant to deal with the growing complexity and diversity of AI solutions, which allows users to access a large variety of AI tools using a single API key and just a few lines of code.
+
+Whether you need Text or Image generation, OCR (Optical Character Recognition), Speech-to-Text conversion, Image Analysis, or more, Eden AI has got you covered. Gone are the days of navigating a complex maze of APIs and authentication processes; Eden AI consolidates it all into one convenient platform.
+
+
+
+
+
+Get your API key for FREE
+
+Designed to be user-friendly and accessible to individuals of all proficiency levels, whether they are AI novices or experts, Eden AI seamlessly addresses a diverse spectrum of business requirements, including but not limited to: Data analysis, NLP capabilities, Computer Vision, Automation Optimization, and Custom model training.
+
+
+
+Eden AI and LangChain: a powerful AI integration partnership
+
+LangChain is an open-source library that provides multiple tools to build applications powered by Large Language Models (LLMs), making it a perfect combination with Eden AI.
+
+Within the LangChain ecosystem, Eden AI empowers users to fully leverage LLM providers without encountering any limitations. Here is how:
+
+
+
+1. A unified platform to access multiple LLMs and Embeddings
+
+Each LLM possesses unique strengths that make it suitable for specific use cases. However, finding the liberty to move between the best LLMs in the market can be challenging.
+
+
+
+By integrating with LangChain, Eden AI opens the door to an extensive array of LLM and Embedding models. This integration empowers users to harness the capabilities of various providers, even models that are not directly integrated into LangChain's framework.
+
+The core strength of this combination lies in its simplicity. With just one API key and a single line of code, LangChain users can tap into a diverse range of LLMs through Eden AI. This not only enhances LangChain's models but also provides great flexibility and adaptability to cater to different AI requirements.
+
+
+
+2. A robust dashboard to optimize your AI investments
+
+Eden AI doesn't stop at simplifying access to AI models; it also offers robust monitoring and cost management features.
+
+
+
+With our intuitive dashboard, you have the power to monitor your AI usage among multiple AI APIs, gain insights into resource allocation, and optimize costs effectively. Additionally, you’ll have access to features such as logging for enhanced debugging and API caching to reduce usage and avoid redundant charges.
+
+This streamlined approach to cost management ensures that you get the most out of your AI investment without any surprises in your budget.
+
+
+
+3. Advanced AI capabilities to enhance your applications
+
+The integration of Eden AI into LangChain represents a significant breakthrough for developers working with LangChain's Agent Tools, empowering them to leverage more advanced capabilities to enhance their applications.
+
+
+
+LangChain Agents act as intermediaries between LLMs and various tools, facilitating a wide range of tasks in AI-powered applications, such as web searches, calculations, and code execution. They are especially crucial for creating versatile and responsive applications, allowing developers to execute functions dynamically and interact with external APIs based on specific user queries.
+
+
+
+The key benefit of this integration is that LangChain users can now incorporate these advanced tools into their applications with ease, including features like Explicit Content Detection for both text and images, Invoice and ID parsing, Object Detection, Text-to-Speech, and Speech-to-Text.
+
+
+
+Consequently, this partnership enables developers to enhance their applications with the best AI models and providers, all accessible via a standard API key, thereby delivering an unprecedented level of versatility and responsiveness in executing various functions and interacting with external APIs.
+
+How to use Eden AI LLMs and Embedding models into LangChain?
+
+Here are not one, but two tutorials that will empower you to redefine the way you approach AI-powered applications. If you’re looking for a basic starter with Eden AI's LLMs and Embeddings, we advise you to follow the first tutorial. On the other hand, if you’re interested in advanced integration, you can proceed directly to the second tutorial!
+
+
+
+Tutorial 1: Get started with Eden AI to access multiple LLMs and Embeddings
+
+In our first tutorial, you will learn how to harness the combined power of LangChain and Eden AI to access multiple Large Language Models (LLMs) and Embeddings.
+
+
+
+By mastering the intricacies of embeddings and LLMs, you will unlock the capability to craft a diverse array of functionalities. From building a basic AI assistant to creating custom chatbots, the possibilities are limited only by your imagination.
+
+
+
+Step 1: Installation
+
+First, ensure you have Python installed. Then, install LangChain by running the following command:
+
+Pip install langchain
+
+
+
+Step 2: Setting Up Your Eden AI Account
+
+To start using Eden AI, you'll need to create an account on the Eden AI platform. Once you have an account, set your API KEY as an environment variable by running:
+
+
+
+export Eden AI_API_KEY="your_api_key_here"
+
+
+
+
+
+Step 3: Importing Eden AI LLMs and Embeddings
+
+The Eden AI API brings together various providers, each offering multiple models. Let's import the necessary modules for Eden AI LLMs and Embeddings:
+
+
+
+from langchain.llms import EdenAI
+
+from langchain.embeddings.edenai import EdenAiEmbeddings
+
+
+
+
+
+Step 4: Using Eden AI LLMs
+
+Now, let’s instantiate an Eden AI LLM, in this case, OpenAI’s. Eden AI LLMs can be configured with multiple providers.
+
+
+
+```
+
+llm=EdenAI(provider="openai", params={"temperature" : 0.2,"max_tokens" : 250})
+
+prompt = """
+
+how can i create ai powered chatbots with LLMS
+
+""
+
+llm(prompt)
+
+
+
+
+
+
+
+We've asked a question, and the LLM provides a detailed response:
+
+
+
+"
+
+
+
+Creating an AI-powered chatbot with LLMS is relatively straightforward. First, you need to create a chatbot using the LLMS platform. This involves selecting a template, customizing the chatbot's conversation flow, and setting up the chatbot's natural language processing (NLP) capabilities. Once the chatbot is set up, you can then integrate it with your existing systems, such as customer service software, to enable it to interact with customers. Finally, you can use the LLMS platform to monitor and analyze the chatbot's performance, allowing you to make adjustments as needed."
+
+
+
+
+
+You can see other examples of LLMs and how to set up chains with Eden AI here.
+
+
+
+Step 5: Exploring Eden AI Embeddings
+
+Next, we'll explore Eden AI's embeddings:
+
+
+
+embeddings = EdenAiEmbeddings(provider="openai")
+
+
+
+docs = ["Eden AI is integrated in LangChain", "AskYoda is Available"]
+
+document_result = embeddings.embed_documents(docs)
+
+
+
+
+
+Here is the response, with float numbers being the representation of the texts we had in input:
+
+
+
+[[0.013804426, -0.0032499523, -0.020794097, -0.01929681, -0.024726225, 0.015966397, -0.04086054, 0.0057792477, 0.0024628271, -0.01493089, 0.0055343644, 0.01719781, 0.008808806, -0.010725892, 0.007696335, 0.034283675, -0.0023963589, -0.006744788, -0.0066433363, 0.015700523, -0.024796192, 0.024334412, -0.018233318, -0.009914279, -0.001967813,
+
+...
+
+0.016727816, 0.0047793766, -0.015208363, -0.019269451, ...]]
+
+😎 You’re all set! With the knowledge of how to use embeddings and LLMs, you now possess the capability to create an array of impressive functionalities, ranging from basic AI assistants to the development of custom chatbots.
+
+Tutorial 2: Supercharge your app with advanced AI capabilities
+
+In our second tutorial, you will learn how to easily integrate Eden AI features (specifically Document Parsing) into your app.
+
+
+
+This integration will catapult your applications to a new echelon of versatility and responsiveness, ensuring you remain at the forefront of innovation in the ever-evolving AI landscape.
+
+
+
+
+
+Step 1: Preparing Your Environment
+
+First, ensure Python is installed on your system. Then, install LangChain by running the following command:
+
+
+
+pip install langchain
+
+
+
+
+
+Step 2: Obtaining an Eden AI API Key
+
+Before you begin, you'll need an API key from the Eden AI platform.
+
+
+
+Step 3: Importing Necessary Modules
+
+Let's import the modules required for our advanced AI capabilities (here, Parsing ID and Invoice Tools)
+
+from langchain.llms import EdenAI
+
+from langchain.agents import initialize_agent, AgentType
+
+from langchain.tools.edenai import (
+
+EdenAiParsingIDTool,
+
+EdenAiParsingInvoiceTool
+
+)
+
+
+
+
+
+import os
+
+
+
+
+
+
+
+Step 4: Setting Up you Eden AI API key
+
+Set your Eden AI API key as an environment variable in your system. Replace it with your own API Key.
+
+os.environ['Eden AI_API_KEY'] = "*******************" # replace with your own API Key
+
+
+
+
+
+Step 5. Initializing the LLM
+
+Eden AI provides a range of providers, which you can explore here. For this tutorial, we'll choose Eden AI LLM to setup the LLM provider (here, OpenAI, text-davinci-003):
+
+
+
+llm=EdenAI(provider="openai", model="text-davinci-003", params={"temperature" : 0.2,"max_tokens" : 250})
+
+
+
+
+
+Step 6. Setting Up Tools and the Agent
+
+Now, it's time to configure the tools and the agent:
+
+
+
+tools = [
+
+EdenAiParsingIDTool(providers=["amazon","klippa"],language="en"),
+
+EdenAiParsingInvoiceTool(providers=["amazon","google"],language="en"),
+
+]
+
+
+
+agent_chain = initialize_agent(
+
+tools,
+
+llm,
+
+agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+
+verbose=True,
+
+return_intermediate_steps=True,
+
+)
+
+
+
+
+
+Step 7: Executing the Agent
+
+Let's put our agent to work with the Doc Parsing Bot to analyze identification or invoice documents.
+
+
+
+Our data consists of 2 image URLs:
+
+The ID image:
+
+https://www.citizencard.com/images/sample-cards/uk-id-card-for-over-18s-2023.png
+
+The invoice image: “https://app.edenai.run/assets/img/data_1.72e3bdcc.png”
+
+Now, let’s extract the information from the ID and create a welcoming text:
+
+id_result=agent_chain(""" i have this url of an id: "https://www.citizencard.com/images/sample-cards/uk-id-card-for-over-18s-2023.png"
+
+extract the information in it.
+
+create a text welcoming the person.
+
+""")
+
+
+
+> Entering new AgentExecutor chain...
+
+
+
+
+
+The result:
+
+Action: Eden AI_identity_parsing
+
+Action Input: "https://www.citizencard.com/images/sample-cards/uk-id-card-for-over-18s-2023.png" Observation:
+
+last_name : value : ANGELA
+
+given_names : value : GREENE
+
+birth_place :
+
+birth_date : value : 2000-11-09
+
+issuance_date :
+
+expire_date : value : 2025-07-31
+
+document_id : value : 5843
+
+issuing_state :
+
+address :
+
+age :
+
+country :
+
+document_type : value : DRIVER LICENSE FRONT
+
+gender :
+
+
+
+Thought: I now have the information from the ID and can create a welcoming text. Final Answer: Welcome Angela Greene!
+
+
+
+
+
+Then, let’s extract the information from the invoice and summarize it:
+
+
+
+invoice_result=agent_chain(""" i have this url of an invoice document: "https://app.Eden AI.run/assets/img/data_2.d6af6d85.png"
+
+extract the information in it.
+
+Summarize them.
+
+""")
+
+
+
+> Entering new AgentExecutor chain...
+
+The result:
+
+Action: Eden AI_invoice_parsing
+
+Action Input: "https://app.Eden AI.run/assets/img/data_2.d6af6d85.png"
+
+Observation:
+
+customer_information :
+
+customer_name : Wiseman Water
+
+customer_address : Wiseman Water,151 Narrows Parkway,Birmingham West Midlands B11,United Kingdom
+
+merchant_information :
+
+merchant_name : Gravity PDF
+
+merchant_address : ABN: 74 212 487 581,48 Federation Way,Telegraph Point NSW 2441, Australia
+
+merchant_website : gravitypdf.com
+
+merchant_tax_id : 74 212 487 581
+
+invoice_number : PDF47-WEB
+
+taxes :
+
+date : 2017-01-31
+
+locale :
+
+currency : GBP
+
+bank_informations :
+
+item_lines :
+
+product_code : Laptop
+
+description : Laptop Upgrades: 2GB Extra Ram,
+
+Laptop Upgrades: Second 512GB Hard Drive
+
+description : Accessories,Accessories: Laser Mouse / Keyboard Combo
+
+
+
+Thought: I now have all the information from the invoice
+
+
+
+Final Answer: The invoice from Wiseman Water to Gravity PDF (invoice number PDF47-WEB) contains the following items: Laptop Upgrades: 2GB Extra Ram, Laptop Upgrades: Second 512GB Hard Drive, Accessories: Laser Mouse / Keyboard Combo. The merchant is Gravity PDF, located at ABN: 74 212 487 581, 48 Federation Way, Telegraph Point NSW 2441, Australia, with website gravitypdf.com and tax ID 74 212 487 581. The customer is Wiseman Water, located at 151 Narrows Parkway, Birmingham West Midlands B11, United Kingdom. The invoice was issued on 2017-01-31 and the currency is GBP.
+
+
+
+
+
+👏 Congrats you’re all done! The integration of Eden AI features into LangChain Tools opens up a world of possibilities for developers. With features such as invoice parsing, ID parsing, as well as object detection, or even explicit content detection, developers can enhance their applications with advanced AI capabilities.
+
+
+
+
+
+Conclusion
+
+Overall, Eden AI streamlines the integration of AI, offering a user-friendly platform that simplifies the labyrinth of APIs and authentication. It grants access to a diverse range of AI capabilities, spanning text and image generation, OCR, speech-to-text, and image analysis, all with the convenience of a single API key and minimal code.
+
+The integration with LangChain further enhances this by providing effortless access to various LLMs and Embeddings. Additionally, Eden AI provides robust cost management features, ensuring you optimize your AI investments effectively.
+
+Whether you're starting with the basics or delving into advanced integration, you now have the tools and knowledge to harness Eden AI and LangChain's capabilities to simplify AI integration and supercharge your applications. Get your API key for FREE and start revolutionizing your AI integration today!
+

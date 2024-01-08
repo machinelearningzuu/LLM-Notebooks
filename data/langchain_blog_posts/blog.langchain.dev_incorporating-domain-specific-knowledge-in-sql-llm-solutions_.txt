@@ -1,0 +1,86 @@
+URL: https://blog.langchain.dev/incorporating-domain-specific-knowledge-in-sql-llm-solutions/
+Title: Incorporating domain specific knowledge in SQL-LLM solutions
+
+Editor's Note: This post was written in collaboration with Manuel and Francisco from the Pampa Labs team. We're always excited to see new best practices emerge for more customizing/personalizing apps more thoroughly, and this post about extending the capabilities of the standard SQL toolkit by applying innovative RAG techniques is an awesome example.
+
+The LangChain library provides different tools to interact with SQL databases which can be used to build and run queries based on natural language inputs. For example, the standard SQL Toolkit draws from standard best practices that have been extensively covered in this blogpost. However, there is still room for improvement when it comes to building a custom solution and adjusting the generic tools to the specific use case. The advantage of having a plug and play toolkit contrasts with having a solution that is not flexible enough for the user to incorporate their domain-specific knowledge about the databases.
+
+We can extend the out-of-the-box SQL Toolkit with extra custom tools which leverage domain specific knowledge. In this way, we get the best of both worlds: anyone can run the standard SQL Agent with minimal setup while at the same time being able to incorporate extra tools that add relevant information to the prompt at inference time. In this blogpost we will cover how to expand the standard SQL Toolkit with some very useful example extra tools.
+
+The Problems
+
+Using the standard SQL Toolkit, an agent is able to construct and run queries to provide answers to user questions. Although this toolkit is robust enough for building a first out-of-the-box prototype by just connecting to a database, someone trying to use it with a complex enough database faces at least one of the following problems:
+
+Queries not generated correctly, leading to various retries until getting the right query.
+
+Excessive use of the tools, making the whole thinking process very inefficient in terms of time and tokens.
+
+Very extensive prompts with information that is not always relevant to the specific user question.
+
+The underlying cause behind these problems is that we are trying to build a custom solution just using generic tools, without leveraging the fact that we do know the nuances of the use case. Therefore, we need to find a way of enhancing the agent with domain specific knowledge, without having to hardcode anything in the prompt template.
+
+Extending the SQL Toolkit
+
+It has been proven that feeding the prompt with database information is crucial for constructing the right SQL query. This is why the toolkit enables the agent to get information about the table names, the schema, sample rows, etc. However, all these tools can do is retrieve information about the database, akin to how a data scientist would approach a new dataset during their initial interaction.
+
+But what if it’s not the first interaction?
+
+Anyone crafting an LLM-SQL solution brings a wealth of domain-specific knowledge to the table. They know which questions are typically hard to translate into queries, as well as when and what supplementary information should be incorporated into the prompt. This becomes especially crucial in scenarios where simply using the standard toolkit falls short. Such insights can be dynamically included into the prompt using Retrieval Augmented Generation, which involves semantically searching in a vector database and retrieving relevant data.
+
+Including few shot examples
+
+Feeding the prompt with few-shot examples of question-query matches improves the query generation accuracy. This can be achieved by simply appending standard static examples in the prompt to guide the agent on how it should build queries based on questions. However, a more powerful approach is to have a robust dataset of good examples, and dynamically include those which are relevant to the user question.
+
+To achieve this, we need a custom Retriever Tool that handles the vector database in order to retrieve the examples that are semantically similar to the user’s question. The agent can even decide whether it needs to use other tools or not.
+
+Let’s see an example!
+
+agent.run("How many employees do we have?") > Entering new AgentExecutor chain... Invoking: `sql_get_similar_examples` with `How many employees do we have?` [Document(page_content='How many employees are there', metadata={'sql_query': 'SELECT COUNT(*) FROM "employee"'}), Document(page_content='Which employee has sold the most?', metadata={'sql_query': "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, SUM(i.Total) AS TotalSales
+
+FROM Employee e
+
+JOIN Customer c ON e.EmployeeId = c.SupportRepId
+
+JOIN Invoice i ON c.CustomerId = i.CustomerId
+
+GROUP BY e.EmployeeId
+
+ORDER BY TotalSales DESC
+
+LIMIT 1;"})] Invoking: `sql_db_query` with `SELECT COUNT(*) FROM employee` responded: {content} [(8,)]We have 8 employees. > Finished chain.
+
+Finding misspellings in proper nouns
+
+Another nice use case of applying RAG in LLM-SQL solutions is for making a system robust to misspellings. When querying for proper nouns like names or countries, a user may inadvertently write a proper noun wrongly and the system will not be able to find it in the database (e.g. ‘Franc Sinatra’).
+
+How can we solve this problem?
+
+One way to approach this problem is to create a vector store using all the distinct proper nouns that exist in the database. We can then have the agent query that vector store each time the user includes a proper noun in their question, to find the correct spelling for that word. In this way, the agent can make sure it understands which entity the user is referring to before building the target query.
+
+Let’s see an example!
+
+` sql_agent("What is 'Francis Trembling's email address?") Invoking: `name_search` with `Francis Trembling` [Document(page_content='François Tremblay', metadata={}), Document(page_content='Edward Francis', metadata={}), Document(page_content='Frank Ralston', metadata={}), Document(page_content='Frank Harris', metadata={}), Document(page_content='N. Frances Street', metadata={})] Invoking: `sql_db_query_checker` with `SELECT Email FROM Customer WHERE FirstName = 'François' AND LastName = 'Tremblay' LIMIT 1` responded: {content} SELECT Email FROM Customer WHERE FirstName = 'François' AND LastName = 'Tremblay' LIMIT 1 Invoking: `sql_db_query` with `SELECT Email FROM Customer WHERE FirstName = 'François' AND LastName = 'Tremblay' LIMIT 1` [('ftremblay@gmail.com',)]The email address of 'François Tremblay' is 'ftremblay@gmail.com'. > Finished chain. {'input': "What is 'Francis Trembling' email address?", 'output': "The email address of 'François Tremblay' is 'ftremblay@gmail.com'."}
+
+Implementation note: when instructing the LLM to use tools in one order or another, we found it was usually more effective to instruct this in the agent’s prompt rather than in the tool’s description - for more information please refer to the SQL use case in the docs.
+
+
+
+Going further
+
+As well as these best practices improve the standard SQL Toolkit by leveraging the developer’s field-specific knowledge, there is still room for improvement in terms of accuracy and cost.
+
+Some examples on enhancing the few-shot approach include:
+
+Applying a similarity threshold to decide whether the retrieved examples are related enough to be included in the prompt (e.g. a new question which is very different to other questions, shouldn’t retrieve any examples).
+
+to decide whether the retrieved examples are related enough to be included in the prompt (e.g. a new question which is very different to other questions, shouldn’t retrieve any examples). Similarly, setting a threshold to decide if the examples are far too related , and no other tools should be used, thus saving a lot of time & tokens (e.g. just adjusting a column filter, just having a related example is enough and no other tools should be necessary).
+
+, and no other tools should be used, thus saving a lot of time & tokens (e.g. just adjusting a column filter, just having a related example is enough and no other tools should be necessary). Prioritizing diversity of the few-shot examples in order to cover a wider area of examples, as covered in the following paper by Hongjin Su et al.
+
+Also, some examples which aren’t strictly related to the few-shot examples but do involve using RAG include:
+
+Retrieving all values from a relevant categoric column if the user’s question involves filtering a column (e.g. a product name).
+
+Adjusting sample rows to show only the columns that are relevant to the user question.
+
+If you want to help implementing any of these or have other best practices that you found helpful, don’t hesitate to join the discussion in the #sql channel in Discord!

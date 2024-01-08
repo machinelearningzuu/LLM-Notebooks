@@ -1,0 +1,32 @@
+URL: https://blog.langchain.dev/langchain-docugami-webinar-lessons-from-deploying-llms-with-langsmith/
+Title: LangChain + Docugami Webinar: Lessons from Deploying LLMs with LangSmith
+
+Editor's Note: This post was written in collaboration with the Docugami team. We recently did a webinar with them and Rechat to talk about what it actually requires to get an LLM application into production. You can find the recording of the webinar here–and this post provides a helpful overview of what they discussed and dives even deeper on their learnings.
+
+At Docugami we have been using, training or fine-tuning language models for multiple years in our mission to transform documents to data. We initially started using smaller models for text completion and OCR correction, as well as pretraining for sequence labeling tasks. As these models have exploded in size and complexity, we have continued to invest in this space with question answering and Retrieval Augmented Generation (RAG) using our unique approach with the Document XML Knowledge Graph.
+
+We chose from the beginning to host the language models in our cloud to ensure customer data confidentiality.
+
+We started using LangChain very early, impressed with the expressive API and vibrant community. The LangChain Docugami Loader was added in May, and we continue to be amazed by the responsiveness of the LangChain team as they incorporate community feedback and continue to grow the LangChain framework.
+
+Yesterday, we were super happy to share our learnings with the community in an educational webinar hosted by LangChain. Our goal was to share some of the real-world challenges we have encountered with LLMs in production and how we are using LangChain, and especially the new LangSmith (beta) tool, in our LLMOps flow.
+
+If you missed the webinar, no problem! Here is a summary of the key points we covered:
+
+1. Real documents are more than flat text: We described in detail how Docugami structurally chunks documents (Scanned PDF, Digital PDF, DOCX, DOC) and stitches together the complex reading orders including tables and multi-column flows. We discussed how humans create documents to be readable by other humans, including visual and structural cues that contain semantic meaning which is often missed by text-only systems.
+
+2. Documents are Knowledge Graphs: We briefly showed some examples of the hierarchical Document XML Knowledge Graph produced by Docugami. It contains deep hierarchies, custom semantic labels on nodes and all the complex relationships that can be expressed semantically using the XML Data Model. We showed through code how RAG using Docugami’s XML Knowledge Graph leads to more accurate results that cannot be achieved with simple linear chunking.
+
+3. Building Complex Chains with the LangChain Expression Language: Real-world chains can get complicated with parallel branches, output parsers, few shot examples, conditional sub-chains, and more. We walked through a quick example with SQL generation, with agent-like fixup for invalid SQL. We discussed how you can step through these complex chains in the LangSmith tool, and shared some example traces.
+
+4. Debugging Complex Chain Failures in Production: Things go wrong for various reasons when LLMs are deployed in production. It could be something as simple as a context length overflow, or something more subtle like an output parser throwing exceptions in some edge cases. We shared some tips to make your run traces in LangSmith more debuggable.
+
+5. Docugami’s end to end LLM Ops with LangChain + LangSmith: Finally, we summarized our overall flow to deploy models, monitor them under real customer use, identify problematic runs, and then fix up these runs (manually as well as with help from other LLMs offline). This is a nascent area, where we are excited to work with LangSmith to improve the tooling given our previous experience running similar model ops for other (non-LLM) machine learning models.
+
+The slides (including links to code samples and LangSmith traces) are here.
+
+
+
+You can also watch the webinar here.
+
+We are excited to see what you build with LangChain and Docugami. Tag us @docugami on twitter to share your results and experience, or just reach out https://www.docugami.com/contact-us
