@@ -14,7 +14,7 @@ Welcome to the "LLM Notebooks" repository, dedicated to exploring and understand
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/LLM-Notebooks.git
+   git clone https://github.com/machinelearningzuu/LLM-Notebooks.git
    cd LLM-Notebooks
    ```
 
